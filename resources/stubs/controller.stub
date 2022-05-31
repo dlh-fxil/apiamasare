@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\Controllers{{subFolder}};
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests{{subFolder}}\{{modelName}}Request;
+use App\Models{{subFolder}}\{{modelName}};
+use App\Http\Resources{{subFolder}}\{{modelName}}Resource;
+use App\Http\Resources{{subFolder}}\{{modelName}}Collection;
+use Illuminate\Http\JsonResponse;
+use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Http\Request;
+
+class {{modelName}}Controller extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return {{modelName}}Collection
+     */
+    public function index(Request $request)
+    {
+        ${{modelNameCamel}} = QueryBuilder::for({{modelName}}::class)
+            // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
+            // ->allowedFilters([
+            //     'name', 'email',
+            //     AllowedFilter::callback('search', function ($query, $value) {
+            //         $query->where(function ($query) use ($value) {
+            //             $query->where('name', 'LIKE', "%{$value}%")->orWhere('email', 'LIKE', "%{$value}%");
+            //         });
+            //     }),
+            //     AllowedFilter::trashed()->default('none')
+            //     // AllowedFilter::scope('deleted')->default(true),
+            // ])->allowedSorts('name', 'email')
+            ->cursorPaginate($request->perPage ?? 10, $columns = ['*']);
+        return new {{modelName}}Collection(${{modelNameCamel}});
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return {{modelName}}Resource
+     */
+    public function store({{modelName}}Request $request)
+    {
+        $validated = $request->safe()->all();
+         try {
+            ${{modelNameCamel}} = {{modelName}}::create($validated);
+        } catch (\Throwable $th) {
+           return response()->json(['message' => 'Gagal Simpan:Internal Server Error'], 500);
+        }
+        return (new {{modelName}}Resource(${{modelNameCamel}}))->setMessage('Created!');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param {{modelName}} ${{modelNameCamel}}
+     * @return {{modelName}}Resource
+     */
+    public function show({{modelName}} ${{modelNameCamel}})
+    {
+        return new {{modelName}}Resource(${{modelNameCamel}});
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param {{modelName}} ${{modelNameCamel}}
+     * @return {{modelName}}Resource
+     */
+    public function update({{modelName}}Request $request, {{modelName}} ${{modelNameCamel}})
+    {
+       
+        try {
+            ${{modelNameCamel}}->update($request->safe()->all());
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Gagal Update:Internal Server Error'], 500);
+        }
+        return (new {{modelName}}Resource(${{modelNameCamel}}))->setMessage('Updated!');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param {{modelName}} ${{modelNameCamel}}
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function destroy({{modelName}} ${{modelNameCamel}})
+    {
+        try {
+            ${{modelNameCamel}}->delete();
+        } catch (\Throwable $th) {
+             return response()->json(['message' => 'Gagal Update:Internal Server Error'], 500);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Deleted!',
+            'meta' => null,
+            'errors' => null
+        ], 200);
+    }
+
+    // public function restore({{modelName}} ${{modelNameCamel}})
+    // {
+    //     try {
+    //        {{modelNameCamel}}->restore();
+    //     } catch (\Throwable $th) {
+    //          return response()->json(['message' => 'Gagal Update:Internal Server Error'], 500);
+    //     }
+    //    return (new {{modelName}}Resource(${{modelNameCamel}}))->setMessage('Restored!');
+    // }
+
+
+    // public function forceDelete({{modelName}} ${{modelNameCamel}})
+    // {
+    //     try {
+    //        {{modelNameCamel}}->forceDelete();
+    //     } catch (\Throwable $th) {
+    //          return response()->json(['message' => 'Gagal Update:Internal Server Error'], 500);
+    //     }
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Permanent Deleted!',
+    //         'meta' => null,
+    //         'errors' => null
+    //     ], 200);
+    // }
+   
+}

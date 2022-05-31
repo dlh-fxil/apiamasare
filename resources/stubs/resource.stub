@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Resources{{subFolder}};
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class {{modelName}}Resource extends JsonResource
+{
+    /**
+     * @var null
+     */
+    protected $message = null;
+
+    /**
+     * @param $message
+     * @return $this
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+   /**
+     * Transform the resource collection into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request)
+    {
+        return [
+            {{columns}}
+            $this->mergeWhen($request->withCan && $request->user(), [
+                'can' => [
+                    'view' => $request->user()?->hasPermissionTo('{{modelNameCamel}}.view') || $request->user()?->id == $this->user_id,
+                    'update' => $request->user()?->hasPermissionTo('{{modelNameCamel}}}}.update') || $request->user()?->id == $this->user_id,
+                    'delete' => $request->user()?->hasPermissionTo('{{modelNameCamel}}.delete') || $request->user()?->id == $this->user_id,
+                    'restore' => $request->user()?->hasPermissionTo('{{modelNameCamel}}.restore'),
+                    'forceDelete' => $request->user()?->hasPermissionTo('{{modelNameCamel}}.forceDelete'),
+                ]
+            ]),
+        ];
+    }
+
+    /**
+     * Get additional data that should be returned with the resource array.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function with($request)
+    {
+        return [
+            'success' => true,
+            'message' => $this->message,
+            'meta' => null,
+            'errors' => null
+        ];
+    }
+}
