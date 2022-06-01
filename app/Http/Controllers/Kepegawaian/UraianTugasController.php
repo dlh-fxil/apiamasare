@@ -25,7 +25,7 @@ class UraianTugasController extends Controller
             // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
             ->defaultSort('-updated_at')
             ->allowedFilters([
-                'jabatan_id',
+               AllowedFilter::exact('id'),
             ])
             ->cursorPaginate($request->perPage ?? 10, $columns = ['*']);
         return new UraianTugasCollection($uraianTuga);
