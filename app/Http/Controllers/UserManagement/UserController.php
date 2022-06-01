@@ -24,7 +24,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user = QueryBuilder::for(User::class)
-            // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
+            ->allowedIncludes(['unit','permissions','jabatan','pangkat'])
             // ->allowedFilters([
             //     'name', 'email',
             //     AllowedFilter::callback('search', function ($query, $value) {
