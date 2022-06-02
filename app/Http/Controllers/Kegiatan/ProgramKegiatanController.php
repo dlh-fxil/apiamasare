@@ -68,6 +68,7 @@ class ProgramKegiatanController extends Controller
                     AllowedFilter::exact('type'),
                     AllowedFilter::exact('id_program'),
                     AllowedFilter::exact('id_kegiatan'),
+                    AllowedFilter::exact('unit_id'),
                 ]
             )
             ->allowedSorts(
