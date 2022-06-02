@@ -21,7 +21,7 @@ class ProgramKegiatanController extends Controller
      */
     public function index(Request $request)
     {
-        $programKegiatan = QueryBuilder::for(ProgramKegiatan::class)->with('program', 'kegiatan')
+        $programKegiatan = QueryBuilder::for(ProgramKegiatan::class)
             ->defaultSorts([
                 'kode_urusan',
                 'kode_bidang_urusan',
@@ -29,16 +29,7 @@ class ProgramKegiatanController extends Controller
                 'kode_kegiatan',
                 'kode_sub_kegiatan',
             ])
-            // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
-            // ->allowedFilters([
-            //     'name', 'email',
-            //     AllowedFilter::callback('search', function ($query, $value) {
-            //         $query->where(function ($query) use ($value) {
-            //             $query->where('name', 'LIKE', "%{$value}%")->orWhere('email', 'LIKE', "%{$value}%");
-            //         });
-            //     }),
-            //     AllowedFilter::trashed()->default('none')
-            //     // AllowedFilter::scope('deleted')->default(true),
+            ->allowedIncludes(['unit','program','kegiatan'])
             ->allowedFilters(
                 [
                     'nomenklatur',
