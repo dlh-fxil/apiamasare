@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             // SuratKeluarSeeder::class,
             // SuratMasukSeeder::class,
             // UraianTugasSeeder::class
+            ProgramKegiatanSeeder::class
 
 
         ]);

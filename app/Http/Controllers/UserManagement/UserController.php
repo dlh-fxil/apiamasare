@@ -24,17 +24,20 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user = QueryBuilder::for(User::class)
-            ->allowedIncludes(['unit','permissions','jabatan','pangkat'])
-            // ->allowedFilters([
-            //     'name', 'email',
-            //     AllowedFilter::callback('search', function ($query, $value) {
-            //         $query->where(function ($query) use ($value) {
-            //             $query->where('name', 'LIKE', "%{$value}%")->orWhere('email', 'LIKE', "%{$value}%");
-            //         });
-            //     }),
-            //     AllowedFilter::trashed()->default('none')
-            //     // AllowedFilter::scope('deleted')->default(true),
-            // ])->allowedSorts('name', 'email')
+            ->allowedIncludes(['unit', 'permissions', 'jabatan', 'pangkat'])
+            ->allowedFilters([
+                'name', 'email',
+                AllowedFilter::callback('search', function ($query, $value) {
+                    $query->where(function ($query) use ($value) {
+                        $query->where('name', 'LIKE', "%{$value}%")->orWhere('email', 'LIKE', "%{$value}%");
+                    });
+                }),
+                AllowedFilter::exact('unit_id'),
+                AllowedFilter::exact('jabatan_id'),
+                AllowedFilter::exact('pangkat_id'),
+                AllowedFilter::trashed()->default('none')
+                // AllowedFilter::scope('deleted')->default(true),
+            ])->allowedSorts('name', 'unit_id',)
             ->cursorPaginate($request->perPage ?? 10, $columns = ['*']);
         return new UserCollection($user);
     }
