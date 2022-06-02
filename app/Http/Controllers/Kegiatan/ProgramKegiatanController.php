@@ -42,8 +42,6 @@ class ProgramKegiatanController extends Controller
                     'satuan',
                     'target_waktu_pelaksanaan',
                     'progress',
-                    'unit_id',
-                    'created_by',
                     'type',
                     'selesai',
                     AllowedFilter::callback('onlyKegiatanProgram', function ($query, $value) {
