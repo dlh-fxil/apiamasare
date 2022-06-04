@@ -58,8 +58,7 @@ class KegiatanResource extends JsonResource
             $this->mergeWhen($request->user(), [
                 'can' => [
                     'follow' => !in_array($request->user()->id, $ids),
-                    'unfollow' => in_array($request->user()->id, $ids),
-
+                    'end' => !$this->selesai,
                     // 'view' => $request->user()?->hasPermissionTo('kegiatan.view') || $request->user()?->id == $this->user_id,
                     // 'view' => $request->user()?->hasPermissionTo('kegiatan.view') || $request->user()?->id == $this->user_id,
                     // 'update' => $request->user()?->hasPermissionTo('kegiatan}}.update') || $request->user()?->id == $this->user_id,

@@ -193,6 +193,30 @@ class KegiatanController extends Controller
         ], 200);
     }
 
+    public function end(ItemKegiatan $kegiatan)
+    {
+
+        try {
+            $kegiatan->selesai = date('Y-m-d H:i:s', strtotime(now()));
+            $kegiatan->update();
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Gagal Update:Internal Server Error'], 500);
+        }
+        return (new KegiatanResource($kegiatan))->setMessage('Restored!');
+    }
+
+    public function cancelEnd(ItemKegiatan $kegiatan)
+    {
+
+        try {
+            $kegiatan->selesai = null;
+            $kegiatan->update();
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Gagal Update:Internal Server Error'], 500);
+        }
+        return (new KegiatanResource($kegiatan))->setMessage('Restored!');
+    }
+
     // public function restore(Kegiatan $kegiatan)
     // {
     //     try {

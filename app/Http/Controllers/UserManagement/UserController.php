@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\Media\ImageResource;
 use App\Http\Requests\UserManagement\UserRequest;
 use App\Http\Resources\UserManagement\UserResource;
@@ -27,9 +28,14 @@ class UserController extends Controller
             ->allowedIncludes(['unit', 'permissions', 'jabatan', 'pangkat'])
             ->allowedFilters([
                 'name', 'email',
-                AllowedFilter::callback('search', function ($query, $value) {
+                AllowedFilter::callback('cari', function ($query, $value) {
                     $query->where(function ($query) use ($value) {
-                        $query->where('name', 'LIKE', "%{$value}%")->orWhere('email', 'LIKE', "%{$value}%");
+                        $query->where('name', 'LIKE', "%{$value}%")->orWhere('nip', 'LIKE', "%{$value}%");
+                    });
+                }),
+                AllowedFilter::callback('jabatan', function ($query, $value) {
+                    $query->whereHas('jabatan', function ($query) use ($value) {
+                        $query->where('nama', 'LIKE', "%{$value}%")->orWhere('jenis', 'LIKE', "%{$value}%");
                     });
                 }),
                 AllowedFilter::exact('unit_id'),

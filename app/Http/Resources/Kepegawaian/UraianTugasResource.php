@@ -43,11 +43,12 @@ class UraianTugasResource extends JsonResource
 
             $this->mergeWhen($request->withCan && $request->user(), [
                 'can' => [
-                    'view' => $request->user()?->hasPermissionTo('uraianTugas.view') || $request->user()?->id == $this->user_id,
-                    'update' => $request->user()?->hasPermissionTo('uraianTugas.update') || $request->user()?->id == $this->user_id,
-                    'delete' => $request->user()?->hasPermissionTo('uraianTugas.delete') || $request->user()?->id == $this->user_id,
+                    'view' => $request->user()?->hasPermissionTo('uraianTugas.view') || $request->user()?->id == $this->created_by,
+                    'update' => $request->user()?->hasPermissionTo('uraianTugas.update') || $request->user()?->id == $this->created_by,
+                    'delete' => $request->user()?->hasPermissionTo('uraianTugas.delete') || $request->user()?->id == $this->created_by,
                     'restore' => $request->user()?->hasPermissionTo('uraianTugas.restore'),
                     'forceDelete' => $request->user()?->hasPermissionTo('uraianTugas.forceDelete'),
+
                 ]
             ]),
         ];

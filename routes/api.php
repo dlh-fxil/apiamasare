@@ -40,4 +40,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'users' => UserController::class,
     ]);
     Route::put('/follow-kegiatan/{kegiatan}', [KegiatanController::class, 'follow']);
+    Route::put('/end-kegiatan/{kegiatan}', [KegiatanController::class, 'end']);
+    Route::put('/cancelEnd-kegiatan/{kegiatan}', [KegiatanController::class, 'cancelEnd']);
 });

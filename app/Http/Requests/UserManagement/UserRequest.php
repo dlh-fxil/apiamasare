@@ -37,10 +37,10 @@ class UserRequest extends FormRequest
         'jabatan_id' => 'required|exists:jabatan,id',
         'jenis_pegawai' => 'required|string|max:6',
         'name' => 'required|string|max:50',
-        'nip' => ['nullable', 'prohibitedIf:jenis_pegawai,PPNPNS', 'required_unless:jenis_pegawai,PPNS', 'string', 'max:20', $nip],
+        'nip' => ['nullable', 'prohibitedIf:jenis_pegawai,PPNPNS', 'required_unless:jenis_pegawai,PPNPNS', 'string', 'max:20', $nip],
         'no_hp' => 'nullable|string|max:20',
         'no_wa' => 'nullable|string|max:20',
-        'pangkat_id' => ['nullable', 'prohibitedIf:jenis_pegawai,PPNPNS|required_unless:jenis_pegawai,PPNS', 'exists:pangkat,id'],
+        'pangkat_id' => ['nullable', 'prohibitedIf:jenis_pegawai,PPNPNS|required_unless:jenis_pegawai,PPNPNS', 'exists:pangkat,id'],
         'sub_unit_id' => 'nullable|exists:sub_unit,id',
         'unit_id' => 'nullable|exists:unit,id',
       ];
