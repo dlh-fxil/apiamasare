@@ -22,7 +22,7 @@ class UserController extends Controller
      *
      * @return UserCollection
      */
-    public function index(Request $request)
+    public function index()
     {
         $user = QueryBuilder::for(User::class)
             ->allowedIncludes(['unit', 'permissions', 'jabatan', 'pangkat'])
@@ -44,7 +44,9 @@ class UserController extends Controller
                 AllowedFilter::trashed()->default('none')
                 // AllowedFilter::scope('deleted')->default(true),
             ])->allowedSorts('name', 'unit_id',)
-            ->cursorPaginate($request->perPage ?? 10, $columns = ['*']);
+            ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
+            ->withPath(request()->path())
+            ->withQueryString();
         return new UserCollection($user);
     }
 

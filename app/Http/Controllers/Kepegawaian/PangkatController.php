@@ -18,7 +18,7 @@ class PangkatController extends Controller
      *
      * @return PangkatCollection
      */
-    public function index(Request $request)
+    public function index()
     {
         $pangkat = QueryBuilder::for(Pangkat::class)
             // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
@@ -32,7 +32,9 @@ class PangkatController extends Controller
             //     AllowedFilter::trashed()->default('none')
             //     // AllowedFilter::scope('deleted')->default(true),
             // ])->allowedSorts('name', 'email')
-            ->cursorPaginate($request->perPage ?? 10, $columns = ['*']);
+            ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
+            ->withPath(request()->path())
+            ->withQueryString();
         return new PangkatCollection($pangkat);
     }
 

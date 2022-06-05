@@ -49,7 +49,9 @@ class KegiatanController extends Controller
                 AllowedFilter::exact('tahun'),
             ])
             ->allowedSorts('created_at', 'updated_at', 'id', 'judul', 'uraian')
-            ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])->appends(request()->query());
+            ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
+            ->withPath(request()->path())
+            ->withQueryString();
         return new KegiatanCollection($kegiatan);
     }
 

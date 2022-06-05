@@ -19,7 +19,7 @@ class SubUnitController extends Controller
      *
      * @return SubUnitCollection
      */
-    public function index(Request $request)
+    public function index()
     {
         $subUnit = QueryBuilder::for(SubUnit::class)
             // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
@@ -34,7 +34,9 @@ class SubUnitController extends Controller
                 AllowedFilter::exact('unit_id')
                 // AllowedFilter::scope('deleted')->default(true),
             ])->allowedSorts('name', 'email')
-            ->cursorPaginate($request->perPage ?? 10, $columns = ['*']);
+            ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
+            ->withPath(request()->path())
+            ->withQueryString();
         return new SubUnitCollection($subUnit);
     }
 

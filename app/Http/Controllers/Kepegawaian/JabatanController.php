@@ -18,7 +18,7 @@ class JabatanController extends Controller
      *
      * @return JabatanCollection
      */
-    public function index(Request $request)
+    public function index()
     {
         $jabatan = QueryBuilder::for(Jabatan::class)
             // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
@@ -32,7 +32,9 @@ class JabatanController extends Controller
             //     AllowedFilter::trashed()->default('none')
             //     // AllowedFilter::scope('deleted')->default(true),
             // ])->allowedSorts('name', 'email')
-            ->cursorPaginate($request->perPage ?? 10);
+            ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
+            ->withPath(request()->path())
+            ->withQueryString();
         return new JabatanCollection($jabatan);
     }
 

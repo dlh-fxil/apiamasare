@@ -19,15 +19,17 @@ class UraianTugasController extends Controller
      *
      * @return UraianTugasCollection
      */
-    public function index(Request $request)
+    public function index()
     {
         $uraianTuga = QueryBuilder::for(UraianTugas::class)
             // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
             ->defaultSort('-updated_at')
             ->allowedFilters([
-               AllowedFilter::exact('jabatan_id'),
+                AllowedFilter::exact('jabatan_id'),
             ])
-            ->cursorPaginate($request->perPage ?? 10, $columns = ['*']);
+            ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
+            ->withPath(request()->path())
+            ->withQueryString();
         return new UraianTugasCollection($uraianTuga);
     }
 

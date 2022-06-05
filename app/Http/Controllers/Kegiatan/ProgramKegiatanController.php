@@ -19,7 +19,7 @@ class ProgramKegiatanController extends Controller
      *
      * @return ProgramKegiatanCollection
      */
-    public function index(Request $request)
+    public function index()
     {
         $programKegiatan = QueryBuilder::for(ProgramKegiatan::class)
             ->defaultSorts([
@@ -58,7 +58,9 @@ class ProgramKegiatanController extends Controller
                 ]
             )
             ->allowedSorts('nomenklatur', 'kinerja', 'indikator', 'tahun_anggaran', 'biaya', 'target_waktu_pelaksanaan', 'target_jumlah_hasil', 'satuan', 'target_waktu_pelaksanaan', 'progress', 'unit_id', 'created_by', 'selesai', 'id', 'kode_urusan', 'kode_bidang_urusan', 'kode_program', 'kode_kegiatan', 'kode_sub_kegiatan', 'updated_at')
-            ->cursorPaginate($request->perPage ?? 10, $columns = ['*'])->appends(request()->query());
+            ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
+            ->withPath(request()->path())
+            ->withQueryString();
         return new ProgramKegiatanCollection($programKegiatan);
     }
 
