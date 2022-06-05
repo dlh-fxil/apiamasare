@@ -38,17 +38,22 @@ class JabatanResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
-            'uraianTugas' => $this->uraianTugas,
+            'uraianTugas' => UraianTugasResource::collection($this->whenNotNull($this->uraianTugas)),
 
-            $this->mergeWhen($request->withCan && $request->user(), [
-                'can' => [
-                    'view' => $request->user()?->hasPermissionTo('jabatan.view') || $request->user()?->id == $this->user_id,
-                    'update' => $request->user()?->hasPermissionTo('jabatan.update') || $request->user()?->id == $this->user_id,
-                    'delete' => $request->user()?->hasPermissionTo('jabatan.delete') || $request->user()?->id == $this->user_id,
-                    'restore' => $request->user()?->hasPermissionTo('jabatan.restore'),
-                    'forceDelete' => $request->user()?->hasPermissionTo('jabatan.forceDelete'),
-                ]
-            ]),
+            // $this->mergeWhen($request->user(), [
+            //     'can' => [
+            //         'view' => $request->user()?->hasPermissionTo('jabatan.view') || $request->user()?->id == $this->user_id,
+            //         'update' => $request->user()?->hasPermissionTo('jabatan.update') || $request->user()?->id == $this->user_id,
+            //         'delete' => $request->user()?->hasPermissionTo('jabatan.delete') || $request->user()?->id == $this->user_id,
+            //         'restore' => $request->user()?->hasPermissionTo('jabatan.restore'),
+            //         'forceDelete' => $request->user()?->hasPermissionTo('jabatan.forceDelete'),
+            //         // 'view' => $request->user()?->hasPermissionTo('jabatan.view') || $request->user()?->id == $this->user_id,
+            //         // 'update' => $request->user()?->hasPermissionTo('jabatan.update') || $request->user()?->id == $this->user_id,
+            //         // 'delete' => $request->user()?->hasPermissionTo('jabatan.delete') || $request->user()?->id == $this->user_id,
+            //         // 'restore' => $request->user()?->hasPermissionTo('jabatan.restore'),
+            //         // 'forceDelete' => $request->user()?->hasPermissionTo('jabatan.forceDelete'),
+            //     ]
+            // ]),
         ];
     }
 

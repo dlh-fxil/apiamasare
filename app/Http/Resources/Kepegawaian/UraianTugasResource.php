@@ -41,13 +41,16 @@ class UraianTugasResource extends JsonResource
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
 
-            $this->mergeWhen($request->withCan && $request->user(), [
+            $this->mergeWhen($request->user(), [
                 'can' => [
-                    'view' => $request->user()?->hasPermissionTo('uraianTugas.view') || $request->user()?->id == $this->created_by,
-                    'update' => $request->user()?->hasPermissionTo('uraianTugas.update') || $request->user()?->id == $this->created_by,
-                    'delete' => $request->user()?->hasPermissionTo('uraianTugas.delete') || $request->user()?->id == $this->created_by,
-                    'restore' => $request->user()?->hasPermissionTo('uraianTugas.restore'),
-                    'forceDelete' => $request->user()?->hasPermissionTo('uraianTugas.forceDelete'),
+                    'view' => $request->user()?->id == $this->created_by,
+                    'update' => $request->user()?->id == $this->created_by,
+                    'delete' => $request->user()?->id == $this->created_by,
+                    // 'view' => $request->user()?->hasPermissionTo('uraianTugas.view') || $request->user()?->id == $this->created_by,
+                    // 'update' => $request->user()?->hasPermissionTo('uraianTugas.update') || $request->user()?->id == $this->created_by,
+                    // 'delete' => $request->user()?->hasPermissionTo('uraianTugas.delete') || $request->user()?->id == $this->created_by,
+                    // 'restore' => $request->user()?->hasPermissionTo('uraianTugas.restore'),
+                    // 'forceDelete' => $request->user()?->hasPermissionTo('uraianTugas.forceDelete'),
 
                 ]
             ]),

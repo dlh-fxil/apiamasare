@@ -24,7 +24,6 @@ class ProgramKegiatanController extends Controller
         $programKegiatan = QueryBuilder::for(ProgramKegiatan::class)
             ->defaultSorts([
                 'id',
-                'updated_at',
             ])
             ->allowedIncludes(['unit', 'program', 'kegiatan'])
             ->allowedFilters(
@@ -60,7 +59,8 @@ class ProgramKegiatanController extends Controller
             ->allowedSorts('nomenklatur', 'kinerja', 'indikator', 'tahun_anggaran', 'biaya', 'target_waktu_pelaksanaan', 'target_jumlah_hasil', 'satuan', 'target_waktu_pelaksanaan', 'progress', 'unit_id', 'created_by', 'selesai', 'id', 'kode_urusan', 'kode_bidang_urusan', 'kode_program', 'kode_kegiatan', 'kode_sub_kegiatan', 'updated_at')
             ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
             ->withPath(request()->path())
-            ->withQueryString();
+            ->withQueryString()
+            ->appends(['sort' => ['id']]);
         return new ProgramKegiatanCollection($programKegiatan);
     }
 

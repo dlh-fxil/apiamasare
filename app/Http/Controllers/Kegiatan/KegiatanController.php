@@ -25,7 +25,7 @@ class KegiatanController extends Controller
     public function index()
     {
         $kegiatan = QueryBuilder::for(ItemKegiatan::class)
-            ->defaultSort('-id', '-updated_at')
+            ->defaultSort('-id')
             ->allowedIncludes(['users', 'uraianTugas', 'units', 'createdBy.jabatan', 'createdBy.unit', 'createdBy.pangkat', 'createdBy.subUnit', 'programKegiatan.unit', 'programKegiatan.program', 'programKegiatan.kegiatan'])
             ->allowedFilters([
                 AllowedFilter::callback(
@@ -51,7 +51,8 @@ class KegiatanController extends Controller
             ->allowedSorts('created_at', 'updated_at', 'id', 'judul', 'uraian')
             ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
             ->withPath(request()->path())
-            ->withQueryString();
+            ->withQueryString()
+            ->appends(['sort' => ['id']]);
         return new KegiatanCollection($kegiatan);
     }
 

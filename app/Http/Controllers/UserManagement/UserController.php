@@ -43,7 +43,7 @@ class UserController extends Controller
                 AllowedFilter::exact('pangkat_id'),
                 AllowedFilter::trashed()->default('none')
                 // AllowedFilter::scope('deleted')->default(true),
-            ])->allowedSorts('name', 'unit_id',)
+            ])->allowedSorts('name', 'unit_id', 'id')
             ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
             ->withPath(request()->path())
             ->withQueryString();
