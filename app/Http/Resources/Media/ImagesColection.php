@@ -32,7 +32,7 @@ class ImageColection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'images' => ImageResource::collection($this->collection),
+            'data' => ImageResource::collection($this->collection),
 
         ];
     }
