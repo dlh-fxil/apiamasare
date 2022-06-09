@@ -16,7 +16,6 @@ return new class extends Migration
      Schema::table('item_kegiatan', function (Blueprint $table) {
       $table->after('program_kegiatan_id', function ($table) {
           $table->unsignedSmallInteger('unit_id')->nullable();      });
-      $table->softDeletes();
       $table->foreign('unit_id')->references('id')->on('unit')->onDelete('set null');
   });
     }
