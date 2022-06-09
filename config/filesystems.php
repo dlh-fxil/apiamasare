@@ -62,13 +62,13 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-        'avatar' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media/images/avatar'),
-            'url' => env('APP_URL') . '/storage/media/images/avatar',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
+        // 'avatar' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app/public/media/images/avatar'),
+        //     'url' => env('APP_URL') . '/storage/media/images/avatar',
+        //     'visibility' => 'public',
+        //     'throw' => false,
+        // ],
         // ...
     'google' => [
         'driver' => 'google',
