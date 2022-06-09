@@ -32,7 +32,7 @@ class JabatanRequest extends FormRequest
     return [
       'jenis' => "required|string|max:50",
       'nama' => "required|string|max:255",
-      'kelas' => "nullable|string|max:4",
+      'kelas' => "required|numeric|max:1000",
       'singkatan' => "nullable|string|max:100",
 
     ];
@@ -52,10 +52,5 @@ class JabatanRequest extends FormRequest
       //'email' => 'email address',
     ];
   }
-  protected function failedValidation(Validator $validator)
-  {
-    throw new HttpResponseException(response()->json([
-      'errors' => $validator->errors()
-    ], 422));
-  }
+  
 }

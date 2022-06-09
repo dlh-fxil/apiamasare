@@ -21,17 +21,7 @@ class JabatanController extends Controller
     public function index()
     {
         $jabatan = QueryBuilder::for(Jabatan::class)
-            // ->allowedIncludes(['pegawai.unit', 'permissions', 'roles.permissions'])
-            // ->allowedFilters([
-            //     'name', 'email',
-            //     AllowedFilter::callback('search', function ($query, $value) {
-            //         $query->where(function ($query) use ($value) {
-            //             $query->where('name', 'LIKE', "%{$value}%")->orWhere('email', 'LIKE', "%{$value}%");
-            //         });
-            //     }),
-            //     AllowedFilter::trashed()->default('none')
-            //     // AllowedFilter::scope('deleted')->default(true),
-            // ])->allowedSorts('name', 'email')
+          
             ->cursorPaginate(request()->perPage ?? 10, $columns = ['*'])
             ->withPath(request()->path())
             ->withQueryString();
@@ -46,8 +36,9 @@ class JabatanController extends Controller
      */
     public function store(JabatanRequest $request)
     {
-        $validated = $request->safe()->all();
+       
         try {
+            $validated = $request->safe()->all();
             $jabatan = Jabatan::create($validated);
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Gagal Simpan:Internal Server Error'], 500);
