@@ -137,7 +137,8 @@ class UserController extends Controller
         $fullFileName = $fileName . "-" . time() . "." . $image->getClientOriginalExtension();
         $image_saved = $request->user()->addMedia($image)
             ->usingFileName($fullFileName)
-            ->toMediaCollection('avatar', 'avatar');
+            ->toMediaCollection('avatar', 'google');
+           
         return new ImageResource($image_saved);
         try {
         } catch (\Throwable $th) {
