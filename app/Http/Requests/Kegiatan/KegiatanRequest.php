@@ -33,11 +33,11 @@ class KegiatanRequest extends FormRequest
       'judul' => "required|string|max:255",
       'kode_sub_kegiatan' => "nullable|string",
       'mulai' => "required|date|date_format:Y-m-d H:i:s",
-      'program_kegiatan_id' => ['required', Rule::exists('program_kegiatan', 'id')->where(fn ($query) => $query->where('deleted_at', null))],
+      'program_kegiatan_id' => ['nullable', Rule::exists('program_kegiatan', 'id')->where(fn ($query) => $query->where('deleted_at', null))],
       'selesai' => "nullable|date|date_format:Y-m-d H:i:s",
       'uraian_tugas_id' => ['nullable', Rule::exists('uraian_tugas', 'id')->where(fn ($query) => $query->where('deleted_at', null))],
       'uraian' => "required|string",
-      // 'unit_id' => ['nullable', Rule::exists('unit', 'id')->where(fn ($query) => $query->where('deleted_at', null))],
+      'unit_id' => ['nullable', Rule::exists('unit', 'id')->where(fn ($query) => $query->where('deleted_at', null))],
     ];
   }
 
@@ -46,6 +46,11 @@ class KegiatanRequest extends FormRequest
   {
 
     $date = null;
+    if (request()->program_kegiatan_id) {
+      $this->merge([
+        'unit_id' => ProgramKegiatan::find(request()->program_kegiatan_id)->unit()->id,
+      ]);
+    }
     if (request()->mulai) {
       $date = date('Y-m-d H:i:s', strtotime(request()->mulai));
     }
@@ -70,6 +75,7 @@ class KegiatanRequest extends FormRequest
       'program_kegiatan_id' => 'Data Program Kegiatan',
       'uraian_tugas_id' => 'Uraian Tugas',
       'uraian' => 'Detail / Uraian kegiatan',
+      'unit_id' => 'Data unit',
       // 'unit_id' => 'Data Unit',
     ];
   }

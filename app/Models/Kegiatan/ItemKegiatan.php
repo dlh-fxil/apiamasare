@@ -24,7 +24,8 @@ class ItemKegiatan extends Model
         'program_kegiatan_id',
         'mulai',
         'selesai',
-        'created_by'
+        'created_by',
+        'unit_id'
     ];
 
 
@@ -51,6 +52,10 @@ class ItemKegiatan extends Model
     public function units()
     {
         return $this->morphedByMany(Unit::class, 'kegiatanable');
+    }
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
     }
     // public function programKegiatan()
     // {
