@@ -77,6 +77,7 @@ return [
         'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
         'folder' => env('GOOGLE_DRIVE_FOLDER'), // without folder is root of drive or team drive
         //'teamDriveId' => env('GOOGLE_DRIVE_TEAM_DRIVE_ID'),
+        // 'throw' => false,
     ],
     // you can use more accounts, only add more disks and configs on .env
     // also you can use the same account and point to a diferent folders for each disk

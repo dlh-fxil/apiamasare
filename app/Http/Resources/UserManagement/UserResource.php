@@ -65,6 +65,7 @@ class UserResource extends JsonResource
             'subUnit' => new SubUnitResource($this->whenNotNull($this->whenLoaded('subUnit'))),
             'roles' =>  RoleResource::collection($this->whenNotNull($this->whenLoaded('roles'))),
             'profile_images' => new ImageResource($avatar ?? null),
+            // 'test' => $this->getMedia('avatar')[0],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

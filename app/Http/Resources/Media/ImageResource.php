@@ -10,6 +10,8 @@ class ImageResource extends JsonResource
      * @var null
      */
     protected $message = null;
+    protected $thumb = null;
+    protected $original = null;
 
     /**
      * @param $message
@@ -30,11 +32,15 @@ class ImageResource extends JsonResource
 
     public function toArray($request)
     {
-        return [
-            'thumb' => $this->whenNotNull($this->getUrl('thumb')),
-            // 'medium' => $this->whenNotNull($this->getUrl('medium')),
-            'original' => $this->whenNotNull($this->getUrl()),
-        ];
+        try {
+           return [
+                'thumb' => $this->whenNotNull($this->getUrl('thumb')),
+                'original' =>$this->whenNotNull($this->getUrl())
+            ];
+        } catch (\Throwable $th) {
+            return null;
+        } 
+       
     }
 
     /**
