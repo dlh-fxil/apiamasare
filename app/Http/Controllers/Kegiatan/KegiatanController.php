@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Kegiatan;
 
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use App\Models\Kegiatan\ItemKegiatan;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Kegiatan\ItemKegiatan;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Requests\Kegiatan\KegiatanRequest;
@@ -26,7 +27,7 @@ class KegiatanController extends Controller
     {
         $kegiatan = QueryBuilder::for(ItemKegiatan::class)->with('unit')
             ->defaultSort('-id')
-            ->allowedIncludes(['users', 'uraianTugas','unit', 'units', 'createdBy.jabatan', 'createdBy.unit', 'createdBy.pangkat', 'createdBy.subUnit', 'programKegiatan.unit', 'programKegiatan.program', 'programKegiatan.kegiatan'])
+            ->allowedIncludes(['users', 'uraianTugas', 'unit', 'units', 'createdBy.jabatan', 'createdBy.unit', 'createdBy.pangkat', 'createdBy.subUnit', 'programKegiatan.unit', 'programKegiatan.program', 'programKegiatan.kegiatan'])
             ->allowedFilters([
                 AllowedFilter::callback(
                     'has_user',
@@ -37,6 +38,12 @@ class KegiatanController extends Controller
                         $query->where('id', $value);
                     });
                 }),
+                AllowedFilter::callback('start', function ($query, $value) {
+                    $query->where('mulai', '>=', Carbon::parse($value))->orWhere('selesai', null);
+                }),
+                AllowedFilter::callback('finish', function ($query, $value) {
+                    $query->where('selesai', '<=', Carbon::parse($value))->orWhere('selesai', null);
+                }),
                 AllowedFilter::callback('unit_id', function ($query, $value) {
                     $query->whereHas('programKegiatan', function ($query) use ($value) {
                         $query->whereHas('unit', function ($query) use ($value) {
@@ -44,6 +51,7 @@ class KegiatanController extends Controller
                         });
                     });
                 }),
+
                 AllowedFilter::exact('program_kegiatan_id'),
                 AllowedFilter::exact('tanggal'),
                 AllowedFilter::exact('tahun'),

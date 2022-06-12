@@ -24,19 +24,19 @@ class UnitSeeder extends Seeder
 
             ],
             [
-                'jenis' => "Bagian",
+                'jenis' => "Bidang",
                 'nama' => "Penataan dan Penaatan Perlindungan dan Pengelolaan Lingkungan Hidup",
                 'uraian_tugas_fungsi' => "uraian_tugas_fungsi Penataan dan Penaatan Perlindungan dan Pengelolaan Lingkungan Hidup",
                 'singkatan' => "PPPPLH",
             ],
             [
-                'jenis' => "Bagian",
+                'jenis' => "Bidang",
                 'nama' => "Pengelolaan Sampah, Limbah dan Pengembangan Kapasitas",
                 'uraian_tugas_fungsi' => "Pengelolaan Sampah, Limbah dan Pengembangan Kapasitas",
                 'singkatan' => "Pengelolaan Sampah, Limbah dan Pengembangan Kapasitas",
             ],
             [
-                'jenis' => "Bagian",
+                'jenis' => "Bidang",
                 'nama' => "Pengendalian Pencemaran dan Kerusakan Lingkungan Hidup",
                 'uraian_tugas_fungsi' => "uraian_tugas_fungsi Pengendalian Pencemaran dan Kerusakan Lingkungan Hidup",
                 'singkatan' => "PPKLH",

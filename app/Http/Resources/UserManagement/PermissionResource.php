@@ -39,6 +39,7 @@ class PermissionResource extends JsonResource
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
 
+
             $this->mergeWhen($request->withCan && $request->user(), [
                 'can' => [
                     'view' => $request->user()->hasPermissionTo('permissions.view') || $request->user()->id == $this->user_id,

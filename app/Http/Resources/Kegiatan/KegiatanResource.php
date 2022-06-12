@@ -49,6 +49,7 @@ class KegiatanResource extends JsonResource
             'program_kegiatan_id' => $this->program_kegiatan_id,
             'programKegiatan' => new ProgramKegiatanResource(($this->whenNotNull($this->whenLoaded('programKegiatan')))),
             'selesai' => $this->selesai,
+            'unit_id' => $this->unit_id,
             'unit' => new UnitResource(($this->whenNotNull($this->whenLoaded('unit')))),
             'units' => UnitResource::collection(($this->whenNotNull($this->whenLoaded('units')))),
             'updated_at' => $this->updated_at,
@@ -58,8 +59,10 @@ class KegiatanResource extends JsonResource
 
             $this->mergeWhen($request->user(), [
                 'can' => [
-                    'follow' => !in_array($request->user()->id, $ids),
+                    'follow' => !in_array($request->user()->id, $ids) && !$this->selesai,
+                    'unfollow' => in_array($request->user()->id, $ids),
                     'end' => !$this->selesai,
+                    'cancelEnd' => $this->selesai && $request->user()->id == $this->created_by
                     // 'view' => $request->user()?->hasPermissionTo('kegiatan.view') || $request->user()?->id == $this->user_id,
                     // 'view' => $request->user()?->hasPermissionTo('kegiatan.view') || $request->user()?->id == $this->user_id,
                     // 'update' => $request->user()?->hasPermissionTo('kegiatan}}.update') || $request->user()?->id == $this->user_id,

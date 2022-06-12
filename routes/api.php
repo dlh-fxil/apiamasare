@@ -11,6 +11,8 @@ use App\Http\Controllers\Kepegawaian\SubUnitController;
 use App\Http\Controllers\UserManagement\UserController;
 use App\Http\Controllers\Kepegawaian\UraianTugasController;
 use App\Http\Controllers\Kegiatan\ProgramKegiatanController;
+use App\Http\Controllers\UserManagement\PermissionController;
+use App\Http\Controllers\UserManagement\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'jabatan' => JabatanController::class,
         'uraianTugas' => UraianTugasController::class,
         'users' => UserController::class,
+        'roles' => RoleController::class,
+        'permissions' => PermissionController::class,
+
+
     ]);
     Route::put('/follow-kegiatan/{kegiatan}', [KegiatanController::class, 'follow']);
     Route::put('/end-kegiatan/{kegiatan}', [KegiatanController::class, 'end']);

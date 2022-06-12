@@ -29,20 +29,33 @@ class JabatanSeeder extends Seeder
             ],
             [
                 'jenis' => "Struktural",
-                'nama' => "Kepala Bidang",
+                'nama' => "Kepala Bidang Penataan dan Penaatan Perlindungan dan Pengelolaan Lingkungan Hidup",
+                'singkatan' => "Kabid",
+                'kelas' => "80",
+            ],
+            [
+                'jenis' => "Struktural",
+                'nama' => "Kepala Bidang Pengelolaan Sampah, Limbah dan Pengembangan Kapasitas",
+                'singkatan' => "Kabid",
+                'kelas' => "80",
+            ],
+            [
+                'jenis' => "Struktural",
+                'nama' => "Pengendalian Pencemaran dan Kerusakan Lingkungan Hidup",
                 'singkatan' => "Kabid",
                 'kelas' => "80",
             ],
 
+
             [
                 'jenis' => "Struktural",
-                'nama' => "Kepala Seksi",
-                'singkatan' => "Kasie",
+                'nama' => "Kepala Sub Bagian Umum dan Kepegawaian",
+                'singkatan' => "Kasubag",
                 'kelas' => "70",
             ],
             [
                 'jenis' => "Struktural",
-                'nama' => "Kepala Sub Bagian",
+                'nama' => "Kepala Sub Bagian Perencanaan dan Keuangan",
                 'singkatan' => "Kasubag",
                 'kelas' => "70",
             ],

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Kegiatan;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Kegiatan\ProgramKegiatan;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -48,7 +49,7 @@ class KegiatanRequest extends FormRequest
     $date = null;
     if (request()->program_kegiatan_id) {
       $this->merge([
-        'unit_id' => ProgramKegiatan::find(request()->program_kegiatan_id)->unit()->id,
+        'unit_id' => ProgramKegiatan::find(request()->program_kegiatan_id)->unit->id,
       ]);
     }
     if (request()->mulai) {
