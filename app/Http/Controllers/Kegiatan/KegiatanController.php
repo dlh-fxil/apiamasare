@@ -26,9 +26,9 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        $kegiatan = QueryBuilder::for(ItemKegiatan::class)->with('unit','userHasUraianTugas')
+        $kegiatan = QueryBuilder::for(ItemKegiatan::class)->with('unit')
             ->defaultSort('-id')
-            ->allowedIncludes(['users', 'uraianTugas', 'unit', 'units', 'createdBy.jabatan', 'createdBy.unit', 'createdBy.pangkat', 'createdBy.subUnit', 'programKegiatan.unit', 'programKegiatan.program', 'programKegiatan.kegiatan'])
+            ->allowedIncludes(['users', 'userHasUraianTugas','uraianTugas', 'unit', 'units', 'createdBy.jabatan', 'createdBy.unit', 'createdBy.pangkat', 'createdBy.subUnit', 'programKegiatan.unit', 'programKegiatan.program', 'programKegiatan.kegiatan'])
             ->allowedFilters([
                 AllowedFilter::callback(
                     'has_user',
