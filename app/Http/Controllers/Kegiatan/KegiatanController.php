@@ -77,22 +77,19 @@ class KegiatanController extends Controller
         $user = $request->user()->id;
         $date =  $validated['mulai'];
         DB::beginTransaction();
-        $validated['created_by'] = $user;
+        
+        try {
+           $validated['created_by'] = $user;
         $validated['tanggal'] = date('Y-m-d', strtotime($date));
         $validated['tahun'] = date('Y', strtotime($date));
         $kegiatan = ItemKegiatan::create($validated);
-        $userHasUraianTugas = UserHasUraianTugas::create([
+            $kegiatan_user = $kegiatan->users()->where('kegiatanable_id', $user)->first();
+            if (Arr::exists($validated, 'uraian_tugas_id')) {
+        $userHasUraianTugas = UserHasUraianTugas::firstOrCreate([
             'uraian_tugas_id' => $validated['uraian_tugas_id'],
             'user_id' => $user
         ]);
         $kegiatan->userHasUraianTugas()->attach($userHasUraianTugas->id);
-        try {
-           
-            $kegiatan_user = $kegiatan->users()->where('kegiatanable_id', $user)->first();
-           
-
-            if (Arr::exists($validated, 'uraian_tugas_id')) {
-              
                 $kegiatan_UT = $kegiatan->uraianTugas()->where('kegiatanable_id', $validated['uraian_tugas_id'])->first();
                 if (!$kegiatan_UT) {
                     $kegiatan->uraianTugas()->attach($validated['uraian_tugas_id']);
@@ -163,6 +160,10 @@ class KegiatanController extends Controller
                 $kegiatan->users()->attach($user);
             }
             if (Arr::exists($validated, 'uraian_tugas_id')) {
+$userHasUraianTugas = UserHasUraianTugas::firstOrCreate([
+            'uraian_tugas_id' => $validated['uraian_tugas_id'],
+            'user_id' => $user
+        ]);
                 $kegiatan_UT = $kegiatan->uraianTugas()->where('kegiatanable_id', $validated['uraian_tugas_id'])->first();
                 if (!$kegiatan_UT) {
                     $kegiatan->uraianTugas()->attach($validated['uraian_tugas_id']);
