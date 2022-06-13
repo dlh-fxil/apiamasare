@@ -52,6 +52,8 @@ class KegiatanResource extends JsonResource
             'unit_id' => $this->unit_id,
             'unit' => new UnitResource(($this->whenNotNull($this->whenLoaded('unit')))),
             'units' => UnitResource::collection(($this->whenNotNull($this->whenLoaded('units')))),
+            'userHasUraianTugas' => $this->userHasUraianTugas,
+
             'updated_at' => $this->updated_at,
             'uraian' => $this->uraian,
             'uraianTugas' => UraianTugasResource::collection(($this->whenNotNull($this->whenLoaded('uraianTugas')))),

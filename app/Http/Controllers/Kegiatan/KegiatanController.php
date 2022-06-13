@@ -15,6 +15,7 @@ use App\Http\Requests\Kegiatan\KegiatanRequest;
 use App\Http\Resources\Kegiatan\KegiatanResource;
 use App\Http\Resources\Kegiatan\KegiatanCollection;
 use App\Http\Requests\Kegiatan\FollowKegiatanRequest;
+use App\Models\Kegiatan\UserHasUraianTugas;
 
 class KegiatanController extends Controller
 {
@@ -25,7 +26,7 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        $kegiatan = QueryBuilder::for(ItemKegiatan::class)->with('unit')
+        $kegiatan = QueryBuilder::for(ItemKegiatan::class)->with('unit','userHasUraianTugas')
             ->defaultSort('-id')
             ->allowedIncludes(['users', 'uraianTugas', 'unit', 'units', 'createdBy.jabatan', 'createdBy.unit', 'createdBy.pangkat', 'createdBy.subUnit', 'programKegiatan.unit', 'programKegiatan.program', 'programKegiatan.kegiatan'])
             ->allowedFilters([
@@ -76,21 +77,29 @@ class KegiatanController extends Controller
         $user = $request->user()->id;
         $date =  $validated['mulai'];
         DB::beginTransaction();
-
+        $validated['created_by'] = $user;
+        $validated['tanggal'] = date('Y-m-d', strtotime($date));
+        $validated['tahun'] = date('Y', strtotime($date));
+        $kegiatan = ItemKegiatan::create($validated);
+        $userHasUraianTugas = UserHasUraianTugas::create([
+            'uraian_tugas_id' => $validated['uraian_tugas_id'],
+            'user_id' => $user
+        ]);
+        $kegiatan->userHasUraianTugas()->attach($userHasUraianTugas->id);
         try {
-            $validated['created_by'] = $user;
-            $validated['tanggal'] = date('Y-m-d', strtotime($date));
-            $validated['tahun'] = date('Y', strtotime($date));
-            $kegiatan = ItemKegiatan::create($validated);
+           
+            $kegiatan_user = $kegiatan->users()->where('kegiatanable_id', $user)->first();
+           
 
             if (Arr::exists($validated, 'uraian_tugas_id')) {
+              
                 $kegiatan_UT = $kegiatan->uraianTugas()->where('kegiatanable_id', $validated['uraian_tugas_id'])->first();
                 if (!$kegiatan_UT) {
                     $kegiatan->uraianTugas()->attach($validated['uraian_tugas_id']);
                 }
+                
             }
 
-            $kegiatan_user = $kegiatan->users()->where('kegiatanable_id', $user)->first();
             if (!$kegiatan_user) {
                 $kegiatan->users()->attach($user);
             }

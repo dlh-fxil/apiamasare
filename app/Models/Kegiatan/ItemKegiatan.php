@@ -57,8 +57,9 @@ class ItemKegiatan extends Model
     {
         return $this->belongsTo(Unit::class);
     }
-    // public function programKegiatan()
-    // {
-    //     return $this->morphedByMany(ProgramKegiatan::class, 'kegiatanable');
-    // }
+    public function userHasUraianTugas()
+    {
+        return $this->morphedByMany(UserHasUraianTugas::class,'kegiatanable');
+    }
+  
 }
