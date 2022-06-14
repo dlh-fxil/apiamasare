@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('program_kegiatan', function (Blueprint $table) {
             $table->id();
             $table->boolean('selesai')->default(0);
-            $table->float('progress')->nullable();
-            $table->integer('biaya')->nullable();
             $table->integer('id_kegiatan')->nullable();
             $table->integer('id_program')->nullable();
+            $table->decimal('realisasi_biaya', 20, 2)->nullable();
+            $table->integer('realisasi_jumlah_hasil')->nullable();
+            $table->decimal('target_biaya', 20, 2)->nullable();
             $table->integer('target_jumlah_hasil')->nullable();
             $table->integer('target_waktu_pelaksanaan')->nullable();
             $table->string('indikator', 500)->nullable();

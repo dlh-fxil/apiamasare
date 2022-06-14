@@ -25,7 +25,7 @@ class ProgramKegiatanController extends Controller
             ->defaultSorts([
                 'id',
             ])
-            ->allowedIncludes(['unit', 'program', 'kegiatan'])
+            ->allowedIncludes(['unit', 'program', 'kegiatan', 'itemKegiatan'])
             ->allowedFilters(
                 [
                     'nomenklatur',

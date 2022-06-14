@@ -23,6 +23,8 @@ return new class extends Migration
             $table->timestamp('selesai', $precision = 0)->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('program_kegiatan_id')->nullable();
+            $table->unsignedSmallInteger('unit_id')->nullable();
+            $table->foreign('unit_id')->references('id')->on('unit')->onDelete('set null');
             $table->foreign('program_kegiatan_id')->references('id')->on('program_kegiatan')->onDelete('restrict');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();

@@ -31,7 +31,8 @@ class ProgramKegiatanResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'biaya' => $this->biaya,
+            'target_biaya' => $this->target_biaya,
+            'realisasi_biaya' => $this->realisasi_biaya,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'deleted_at' => $this->deleted_at,
@@ -50,15 +51,17 @@ class ProgramKegiatanResource extends JsonResource
             'kegiatan' => new ProgramKegiatanResource(($this->whenNotNull($this->whenLoaded('kegiatan')))),
             'program' => new ProgramKegiatanResource(($this->whenNotNull($this->whenLoaded('program')))),
             'unit' => new UnitResource(($this->whenNotNull($this->whenLoaded('unit')))),
-            'progress' => $this->progress,
             'satuan' => $this->satuan,
             'selesai' => $this->selesai,
             'tahun_anggaran' => $this->tahun_anggaran,
             'target_jumlah_hasil' => $this->target_jumlah_hasil,
+            'realisasi_jumlah_hasil' => $this->realisasi_jumlah_hasil,
             'target_waktu_pelaksanaan' => $this->target_waktu_pelaksanaan,
             'type' => $this->type,
             'unit_id' => $this->unit_id,
+            'status' => $this->status,
             'updated_at' => $this->updated_at,
+            'item_kegiatan_count' => $this->whenNotNull($this->item_kegiatan_count),
 
             $this->mergeWhen($request->withCan && $request->user(), [
                 // 'can' => [
