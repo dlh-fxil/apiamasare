@@ -77,27 +77,28 @@ class KegiatanController extends Controller
         $user = $request->user()->id;
         $date =  $validated['mulai'];
         DB::beginTransaction();
-        $validated['created_by'] = $user;
-        $validated['tanggal'] = date('Y-m-d', strtotime($date));
-        $validated['tahun'] = date('Y', strtotime($date));
-        $kegiatan = ItemKegiatan::create($validated);
-        $kegiatan_user = $kegiatan->users()->where('kegiatanable_id', $user)->first();
-        if (Arr::exists($validated, 'uraian_tugas_id')) {
-            $userHasUraianTugas = UserHasUraianTugas::firstOrCreate([
-                'uraian_tugas_id' => $validated['uraian_tugas_id'],
-                'user_id' => $user
-            ]);
-            $kegiatan->userHasUraianTugas()->attach($userHasUraianTugas->id);
-            $kegiatan_UT = $kegiatan->uraianTugas()->where('kegiatanable_id', $validated['uraian_tugas_id'])->first();
-            if (!$kegiatan_UT) {
-                $kegiatan->uraianTugas()->attach($validated['uraian_tugas_id']);
-            }
-        }
 
-        if (!$kegiatan_user) {
-            $kegiatan->users()->attach($user);
-        }
         try {
+            $validated['created_by'] = $user;
+            $validated['tanggal'] = date('Y-m-d', strtotime($date));
+            $validated['tahun'] = date('Y', strtotime($date));
+            $kegiatan = ItemKegiatan::create($validated);
+            $kegiatan_user = $kegiatan->users()->where('kegiatanable_id', $user)->first();
+            if (Arr::exists($validated, 'uraian_tugas_id')) {
+                $userHasUraianTugas = UserHasUraianTugas::firstOrCreate([
+                    'uraian_tugas_id' => $validated['uraian_tugas_id'],
+                    'user_id' => $user
+                ]);
+                $kegiatan->userHasUraianTugas()->attach($userHasUraianTugas->id);
+                $kegiatan_UT = $kegiatan->uraianTugas()->where('kegiatanable_id', $validated['uraian_tugas_id'])->first();
+                if (!$kegiatan_UT) {
+                    $kegiatan->uraianTugas()->attach($validated['uraian_tugas_id']);
+                }
+            }
+
+            if (!$kegiatan_user) {
+                $kegiatan->users()->attach($user);
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json(['message' => 'Gagal Simpan:Internal Server Error'], 500);
