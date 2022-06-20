@@ -31,7 +31,6 @@ class ProgramKegiatanController extends Controller
                     'nomenklatur',
                     'kinerja',
                     'indikator',
-                    'tahun_anggaran',
                     'biaya',
                     'target_waktu_pelaksanaan',
                     'target_jumlah_hasil',
@@ -54,6 +53,7 @@ class ProgramKegiatanController extends Controller
                     AllowedFilter::exact('id_program'),
                     AllowedFilter::exact('id_kegiatan'),
                     AllowedFilter::exact('unit_id'),
+									  AllowedFilter::exact('tahun_anggaran'),
                 ]
             )
             ->allowedSorts('nomenklatur', 'kinerja', 'indikator', 'tahun_anggaran', 'biaya', 'target_waktu_pelaksanaan', 'target_jumlah_hasil', 'satuan', 'target_waktu_pelaksanaan', 'progress', 'unit_id', 'created_by', 'selesai', 'id', 'kode_urusan', 'kode_bidang_urusan', 'kode_program', 'kode_kegiatan', 'kode_sub_kegiatan', 'updated_at')
